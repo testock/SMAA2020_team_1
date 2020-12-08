@@ -41,27 +41,10 @@ for y in range(1,i):
     ini = open(PATH_data +  str(y) + ".xml")
     for u in ini.readlines():
         out = open(PATH_data +  str(y) + ".xml" ,"w")
-        out.write(u.replace('\\"', '"'))
-        out.close()
-        
-    ini.close()
-    print(y)
-    
-for y in range(1,i):
-    ini = open(PATH_data +  str(y) + ".xml")
-    for u in ini.readlines():
-        out = open(PATH_data +  str(y) + ".xml" ,"w")
-        out.write(u.replace('\\n"', ''))
-        out.close()
-        
-    ini.close()
-    print(y)
-    
-for y in range(1,i):
-    ini = open(PATH_data +  str(y) + ".xml")
-    for u in ini.readlines():
-        out = open(PATH_data + str(y) + ".xml" ,"w")
-        out.write(u.replace(' \\n', ''))
+        txt=u.replace('\\"', '"')
+        txt=txt.replace(' \\n', '')
+        txt=txt.replace('\\n"', '')
+        out.write(txt)
         out.close()
         
     ini.close()
