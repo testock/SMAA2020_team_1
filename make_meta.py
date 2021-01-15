@@ -15,12 +15,20 @@ nbrdate=0
 nbrnumber=0
 nbropi=0
 nbrpart=0
+cdate=''
+cnumber=''
+copi=''
+cpart=''
 
-PATH_data="/home/elliot/ill_xml_20200604/data/data_1000/"
-PATH_meta="/home/elliot/ill_xml_20200604/data/data_1000/meta/"
+PATH_data="/home/elliot/SMAA2020/xml/"
+PATH_meta="/home/elliot/SMAA2020/meta/"
 
-for i in range(1,1000):
-    print(i)
+for i in range(1,183033):
+    cdate=''
+    cnumber=''
+    copi=''
+    cpart=''
+    
     tree = ET.parse(PATH_data  + str(i) + '.xml')
     root = tree.getroot()
 
@@ -28,7 +36,7 @@ for i in range(1,1000):
     meta= ET.Element('meta', {'id_text': str(i)})
 
     case = ET.SubElement(meta, 'casebody', root.attrib)
-    
+
 
     #print(root.tag)
     #print(root.attrib)
@@ -38,58 +46,81 @@ for i in range(1,1000):
     docketnumber = root.find('{http://nrs.harvard.edu/urn-3:HLS.Libr.US_Case_Law.Schema.Case_Body:v1}docketnumber')
     decisiondate = root.find('{http://nrs.harvard.edu/urn-3:HLS.Libr.US_Case_Law.Schema.Case_Body:v1}decisiondate')
     opinion = root.find('{http://nrs.harvard.edu/urn-3:HLS.Libr.US_Case_Law.Schema.Case_Body:v1}opinion')
-
+    do=True
+    if parties==None or docketnumber==None or opinion==None or parties==None :
+        do=False
+    
     #print(parties.tag)
     #print(parties.text)
     #print('\n\n')
-    part = ET.SubElement(case, 'parties')
-    if docketnumber!=None:
-        part.text=parties.text
-        nbrpart=nbrpart+1
+    if do==True :
+        print(i)
+        part = ET.SubElement(case, 'parties')
+        if parties!=None:
+            t=ET.tostring(parties, method='text').decode("utf-8")
+            t=t.replace('\\n  ', '')
+            part.text=t
+            nbrpart=nbrpart+1
+            cpart='p'
+
+
+        #print(docketnumber.tag)
+        #print(docketnumber.text)
+        #print('\n\n')
+        dock = ET.SubElement(case, 'docketnumber')
+        if docketnumber!=None:
+            t=ET.tostring(docketnumber, method='text').decode("utf-8")
+            t=t.replace('\\n  ', '')
+            dock.text=t
+            nbrnumber=nbrnumber+1
+            cnumber='n'
+
+
+
+        #print(decisiondate.tag)
+        #print(decisiondate.text)
+        #print('\n\n')
+        date =ET.SubElement(case, 'decisiondate')
+        if decisiondate!=None:
+            t=ET.tostring(decisiondate, method='text').decode("utf-8")
+            t=t.replace('\\n  ', '')
+            date.text=t
+            nbrdate=nbrdate+1
+            cdate='d'
+
+
+        #print(opinion.tag)
+        #print(opinion.attrib)
+
+        if opinion!=None:
+            opin = ET.SubElement(case, 'opinion', opinion.attrib)
+            nbropi=nbropi+1
+            copi='o'
+            for o in opinion:
+                if o.tag=='{http://nrs.harvard.edu/urn-3:HLS.Libr.US_Case_Law.Schema.Case_Body:v1}author':
+                    #print(o.text)
+                    aut= ET.SubElement(opin, 'author')
+                    aut.text=o.text
+        else:
+            opin = ET.SubElement(case, 'opinion')
+            aut= ET.SubElement(opin, 'author')
+
+
+
+
+
+
+
+        out=open(PATH_meta + 'meta' + str(i) + '.xml', 'w')
+        out.write(str(ET.tostring(meta)))
+        out.close()
+        out=open(PATH_meta + 'meta' + str(i) + '.xml', 'r')
+        for line in out.readlines():
+            out2=open(PATH_meta + 'meta' + str(i) + '.xml', 'w')
+            line=line[2:-1]
+            out2.write(line)
+            out2.close()
+        out.close()
     
 
-    #print(docketnumber.tag)
-    #print(docketnumber.text)
-    #print('\n\n')
-    dock = ET.SubElement(case, 'docketnumber')
-    if docketnumber!=None:
-        dock.text=docketnumber.text
-        nbrnumber=nbrnumber+1
-        
-        
-
-    #print(decisiondate.tag)
-    #print(decisiondate.text)
-    #print('\n\n')
-    date =ET.SubElement(case, 'decisiondate')
-    if decisiondate!=None:
-        date.text=decisiondate.text
-        nbrdate=nbrdate+1
-
-
-    #print(opinion.tag)
-    #print(opinion.attrib)
-    
-    if opinion!=None:
-        opin = ET.SubElement(case, 'opinion', opinion.attrib)
-        nbropi=nbropi+1
-        for o in opinion:
-            if o.tag=='{http://nrs.harvard.edu/urn-3:HLS.Libr.US_Case_Law.Schema.Case_Body:v1}author':
-                #print(o.text)
-                aut= ET.SubElement(opin, 'author')
-                aut.text=o.text
-    else:
-        opin = ET.SubElement(case, 'opinion')
-        aut= ET.SubElement(opin, 'author')
-
-
-
-
-
-
-
-    out=open(PATH_meta + 'meta' + str(i) + '.xml', 'w')
-    out.write(str(ET.tostring(meta)))
-    out.close()
-    
 print('nbrdate : '+str(nbrdate) +'   nbrnumber :' + str(nbrnumber) + '    nbropi : '+ str(nbropi));
