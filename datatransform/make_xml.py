@@ -5,9 +5,9 @@ The goal of the script is to transform the jsonl file into xml files (one file f
 Author : ROGIE Elliot
 """
 
-PATH_data="/home/elliot/SMAA2020/xml/"
+PATH_data="../dataset/xml"#entry the entire path for xml path
 
-f = open("data.jsonl")
+f = open("../dataset/data10000.jsonl")#entry the entire path
 out=open("sample.xml")
 f1=f.readlines()
 doc = False

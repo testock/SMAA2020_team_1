@@ -1,11 +1,22 @@
+"""
+Description:
+The goal of the script is to make the data final  file in IOB form from the meta  files and text files 
+
+Author : ROGIE Elliot
+
+
+
+"""
+
+
 import xml.etree.ElementTree as ET
 
 
-PATH_text="/home/elliot/SMAA2020/text/"
-PAtH_meta="/home/elliot/SMAA2020/meta/"
+PATH_text="/home/elliot/SMAA2020/text/"#entry the entire path for text 
+PAtH_meta="/home/elliot/SMAA2020/meta/"#entry the entire path for meta 
 label=['D','N', 'A', 'P', 'O']
 alpha=183033//3
-data=open("/home/elliot/SMAA2020/data0.txt","w")
+data=open("/home/elliot/SMAA2020/data0.txt","w")#entry the entire path for data and the name of it
 def compare(opinion, line):
     A=False
     for o in opinion:
@@ -13,7 +24,7 @@ def compare(opinion, line):
                 A=True
     return A
 
-for i in range(1,183033):
+for i in range(1,10000):#entry the number of files 
     print(i)
     u=i//alpha
     if u!=(i-1)//alpha:

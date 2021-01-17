@@ -20,10 +20,10 @@ cnumber=''
 copi=''
 cpart=''
 
-PATH_data="/home/elliot/SMAA2020/xml/"
-PATH_meta="/home/elliot/SMAA2020/meta/"
+PATH_data="/home/elliot/SMAA2020/xml/"#entry the entire path for xml
+PATH_meta="/home/elliot/SMAA2020/meta/"#entry the entire path for meta
 
-for i in range(1,183033):
+for i in range(1,10000):#entry the number of files (exemple here 10000 files
     cdate=''
     cnumber=''
     copi=''

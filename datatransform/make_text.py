@@ -9,8 +9,8 @@ Author : ROGIE Elliot
 """
 import xml.etree.ElementTree as ET
 
-PATH_data="/home/elliot/SMAA2020/xml/"
-PATH_text="/home/elliot/SMAA2020/text/"
+PATH_data="/home/elliot/SMAA2020/xml/"#entry the entire path for xml 
+PATH_text="/home/elliot/SMAA2020/text/"#entry the entire path for text
 for i in range(1,183033):
     print(i)
     xml = open(PATH_data  + str(i)+ ".xml")
